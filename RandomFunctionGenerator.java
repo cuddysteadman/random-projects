@@ -1,5 +1,3 @@
-package main.java;
-
 public class RandomFunctionGenerator {
     public static final String[] functions = {"ln", "sin", " * ", " / ", "sqrt", "e^", "^"};
     public static final int[] numbers = {2, 3, 4, 5, 6, 7, 8, 9, 10};

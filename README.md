@@ -1,1 +1,2 @@
-This is my random repository where I learn C#, JS, Python, HTML/CSS, and Java (?). Let's see how it goes!
+### To use RandomNumberGenerator:
+You need the Java runtime to run it locally, or you can just run it online using something like https://www.jdoodle.com/online-java-compiler/. Simply copy and paste the code (if you're using online, delete the first line (package main.java;), and if you're running it locally, rename it to whatever package you're using or delete the line). Alternatively, you can also use the included class file. Simply download the .class file, navigate to your downloads folder from the terminal / command prompt and write "java RandomFunctionGenerator" and hit enter. If you want to quickly re-run it, you can do up arrow + enter.

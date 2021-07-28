@@ -8,7 +8,6 @@ Slice the data at a certain index.
 """
 def slice_data(original_data_loc, slice_index, start, new_name, num_channels):
     slice_index *= num_channels
-    print(start)
     new_name += ".dat"
     if start:
         original_data = open(original_data_loc, mode='rb').read(slice_index * 2)
@@ -23,6 +22,26 @@ def slice_data(original_data_loc, slice_index, start, new_name, num_channels):
         new_file = open(new_file, 'wb')
         new_file.write(original_data)
         new_file.close()
+
+
+"""
+Remove a certain portion of the data.
+    original_data_loc: path to data to be sliced
+    slice_index: the index to start removing data from
+    end_slice_index: index to stop removing data (non-inclusive)
+    new_name: new filename for data
+    num_channels: the number of channels in the dataset provided
+"""
+def remove_data(original_data_loc, slice_index, end_slice_index, new_name, num_channels):
+    slice_index *= int(num_channels * 2)
+    end_slice_index *= int(num_channels * 2)
+    new_name += ".dat"
+    original_data = open(original_data_loc, mode='rb').read()
+    original_data = original_data[0:slice_index] + original_data[end_slice_index:]
+    new_file = original_data_loc[:original_data_loc.rindex("/") + 1] + new_name
+    new_file = open(new_file, 'wb')
+    new_file.write(original_data)
+    new_file.close()
 
 
 """
@@ -44,6 +63,7 @@ def combine_data(original_data_loc, append_data_loc, new_name):
     new_file.write(old_data)
     new_file.write(append_data_loc)
     new_file.close()
+
 
 """
 Add two probe datasets together. (double channel count with same timestamps)
@@ -78,8 +98,10 @@ if __name__ == "__main__":
     # sample 10-second dataset
     file_loc = "/home/wufan/Downloads/10sec.dat"
     # first 200000 samples of dataset
-    slice_data(file_loc, 200000, True, "10secFirst200k", 32)
+    slice_data(file_loc, 100000, True, "10secFirst200k", 32)
     # weave two datasets together, although in this case it's just two of the same dataset
     weave_data(file_loc, file_loc, "10secWeaved", 32)
     # combine two datasets together, in this case have the same data twice in one file
     combine_data(file_loc, file_loc, "10secAppended")
+    # remove values 100000-120000
+    remove_data(file_loc, 100000, 120000, "10secRemoved", 32)

@@ -1,7 +1,6 @@
 import struct
 
 import numpy as np
-import PySimpleGUI as sg
 
 
 def process_packet(packet):
@@ -19,7 +18,7 @@ def process_packet(packet):
     return data.tobytes()
 
 
-def nrd2dat(file_loc, num_channels, new_name, screen):
+def nrd2dat(file_loc, num_channels, new_name): # screen
     new_name += ".dat"
     old_file = open(file_loc, mode='rb')
     nrs_data = old_file.read()
@@ -29,22 +28,21 @@ def nrd2dat(file_loc, num_channels, new_name, screen):
     num_samples = int(len(nrs_data) / packet_size)
     new_file = file_loc[:file_loc.rindex("/") + 1] + new_name
     data = open(new_file, mode='wb')
-    progress_bar = screen['progress']
-    percent = 0.0
-    progress_bar.update_bar(percent)
+    # progress_bar = screen['progress']
+    # percent = 0.0
+    # progress_bar.update_bar(percent)
     for i in range(num_samples):
         # process the packet at index i
         data.write(process_packet(nrs_data[i * packet_size:packet_size * (i + 1)]))
-        if i % int(num_samples / 50) == 0 and i != 0:
-            percent += 0.2
-            progress_bar.update_bar(percent)
-    progress_bar.update_bar(10)
+        # if i % int(num_samples / 50) == 0 and i != 0:
+            # percent += 0.2
+            # progress_bar.update_bar(percent)
+    # progress_bar.update_bar(10)
     data.close()
 
 
 if __name__ == "__main__":
     # sample 10-second dataset
-    """
     dat_loc = "/home/wufan/Downloads/10sec.nrd"
     nrd2dat(dat_loc, 32, "10secPy")
     old_file_dat = open("/home/wufan/Downloads/10sec.dat", mode='rb')
@@ -55,7 +53,11 @@ if __name__ == "__main__":
         print("Everything went well!")
     else:
         print("Something went wrong. :(")
+
+
+    # with PythonSimpleGUI
     """
+    import PySimpleGUI as sg
     sg.theme('BluePurple')
     layout = [[sg.Text('Welcome to NRD 2 DAT!')],
               [sg.Text('Choose a file to convert: '), sg.Input(key='-IN-'), sg.FileBrowse()],
@@ -75,3 +77,4 @@ if __name__ == "__main__":
             nrd2dat(str(values['-IN-']), int(str(values['-IN-2-'])), str(values['-IN-3-']), window)
             window['complete'].Update(visible=True)
     window.close()
+    """
